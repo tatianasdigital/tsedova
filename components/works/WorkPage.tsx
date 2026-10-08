@@ -112,11 +112,11 @@ export function WorkPage({ project }: { project: Project }) {
                 </div>
 
                 <div className="enter-from-above flex items-start gap-40" style={delay(670)}>
-                  <div className="flex w-256 flex-col gap-21">
+                  <div className="flex w-256 flex-col gap-20">
                     <DetailItem label="Areas" value={project.areas?.join(", ")} />
                     <DetailItem label="Tools Used" value={project.tools?.join(", ")} />
                   </div>
-                  <div className="flex w-200 flex-col gap-17">
+                  <div className="flex w-200 flex-col gap-20">
                     <DetailItem label="Year" value={project.year} />
                     <DetailItem label="Project Type" value={project.projectType} />
                   </div>

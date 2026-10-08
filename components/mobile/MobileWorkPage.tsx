@@ -5,7 +5,6 @@ import { OverlapSection } from "@/components/ui/OverlapSection";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { MobileHeader } from "@/components/mobile/MobileHeader";
 import { MobileContact } from "@/components/mobile/MobileSections";
-import { MobileStickyCta } from "@/components/mobile/MobileStickyCta";
 import { BEHANCE_PROFILE } from "@/content/links";
 import { BACK_TO_WORKS } from "@/lib/routes";
 import { BLANK_SRC, DESKTOP_MEDIA } from "@/components/layout/Responsive";
@@ -78,27 +77,47 @@ export function MobileWorkPage({ project }: { project: Project }) {
               </div>
 
               <div className="enter-from-above flex items-start gap-20" style={delay(570)}>
-                <div className="flex min-w-0 flex-1 flex-col gap-21">
+                <div className="flex min-w-0 flex-1 flex-col gap-20">
                   <Detail label="Areas" value={project.areas?.join(", ")} />
                   <Detail label="Tools Used" value={project.tools?.join(", ")} />
                 </div>
-                <div className="flex min-w-0 flex-1 flex-col gap-17">
+                <div className="flex min-w-0 flex-1 flex-col gap-20">
                   <Detail label="Year" value={project.year} />
                   <Detail label="Project Type" value={project.projectType} />
                 </div>
               </div>
             </div>
 
-            {/* Primary button (Figma 98:1802: white, py 20, 16px label + 20px icon)
-                + ImageGrid (118:2571: 358 × 289 images, gap 20). The button docks
-                24px above the bottom of the screen once reached and stops at
-                the end of the images — see MobileStickyCta. Gaps as in Figma:
-                details → button 32, button → images 56. */}
-            <MobileStickyCta
-              className="mt-32"
-              gap={56}
-              enterDelay={690}
-              button={
+            {/* ImageGrid (118:2571: 358 × 289 images, gap 20), 56px below the
+                InfoBlock (Figma: RIghtInfo → ImageGrid). */}
+            <div className="mt-56 flex flex-col gap-20">
+              {images.map((src, i) => (
+                <div
+                  key={src}
+                  data-reveal="from-above"
+                  className="relative aspect-[358/289] w-full overflow-clip bg-placeholder"
+                >
+                  {/* <picture>: desktop gets its own set instead of these files */}
+                  <picture>
+                    <source media={DESKTOP_MEDIA} srcSet={BLANK_SRC} />
+                    <img
+                      src={src}
+                      alt={`${project.title} — image ${i + 1}`}
+                      loading="lazy"
+                      className="absolute inset-0 size-full object-cover"
+                    />
+                  </picture>
+                </div>
+              ))}
+            </div>
+
+            {/* Primary button (Figma 98:1802: white, py 20, 16px label + 20px icon).
+                Its place is under the last image (24px gap); `position: sticky`
+                with bottom 24px keeps it docked at the bottom of the screen from
+                the moment the page opens until the end of the ImageGrid, where
+                it comes to rest under the images. Browser-native → no jitter. */}
+            <div className="m-cta-dock mt-24">
+              <div className="enter-from-above" style={delay(690)}>
                 <a
                   href={project.behanceUrl ?? BEHANCE_PROFILE}
                   target="_blank"
@@ -112,29 +131,8 @@ export function MobileWorkPage({ project }: { project: Project }) {
                     style={{ "--icon": "url(/icons/button-arrow.svg)" } as CSSProperties}
                   />
                 </a>
-              }
-            >
-              <div className="flex flex-col gap-20">
-                {images.map((src, i) => (
-                  <div
-                    key={src}
-                    data-reveal="from-above"
-                    className="relative aspect-[358/289] w-full overflow-clip bg-placeholder"
-                  >
-                    {/* <picture>: desktop gets its own set instead of these files */}
-                    <picture>
-                      <source media={DESKTOP_MEDIA} srcSet={BLANK_SRC} />
-                      <img
-                        src={src}
-                        alt={`${project.title} — image ${i + 1}`}
-                        loading="lazy"
-                        className="absolute inset-0 size-full object-cover"
-                      />
-                    </picture>
-                  </div>
-                ))}
               </div>
-            </MobileStickyCta>
+            </div>
           </div>
         </OverlapSection>
       </main>

@@ -443,26 +443,11 @@ html.js-reveal .is-revealed [data-reveal] {
   }
 }
 
-/* Mobile sticky CTA: docks 24px above the bottom of the screen (browser-native
-   sticky, so it is perfectly smooth) and is released at the end of its block */
-.m-cta-sticky {
+/* Mobile WorkPage PrimaryButton: docked 24px above the bottom of the screen
+   (browser-native sticky → smooth) until it reaches its own place under the
+   ImageGrid, where it stays. */
+.m-cta-dock {
   position: sticky;
+  bottom: calc(24px + env(safe-area-inset-bottom));
   z-index: 30;
-  top: calc(100vh - var(--cta-offset) - var(--cta-h));
-  top: calc(100dvh - var(--cta-offset) - var(--cta-h));
-}
-/* Mobile sticky CTA: slides up into its docked place when it was not reached
-   from below (see MobileStickyCta) */
-@keyframes m-cta-slide-in {
-  from {
-    transform: translate3d(0, calc(100% + 24px), 0);
-  }
-  to {
-    transform: none;
-  }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .m-cta-slide-in {
-    animation: m-cta-slide-in 420ms var(--ease-out) both;
-  }
 }
