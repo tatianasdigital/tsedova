@@ -30,7 +30,7 @@ export const works: Project[] = [
     projectType: "Concept",
     description:
       "A modern tourism website designed to showcase the beauty, activities, and destinations of Lake Saimaa. The goal was to create an engaging visual experience that inspires visitors to explore the region.",
-    // behanceUrl: TODO(content) — case-study link not supplied yet
+    behanceUrl: "https://www.behance.net/gallery/256372983/Lake-Saimaa-Tourism-Website",
     ...pageImages("lake-saimaa", 3),
   },
   {
@@ -45,6 +45,7 @@ export const works: Project[] = [
     projectType: "Concept",
     description:
       "A rental housing website designed for young people under 30. The goal was to create a fresh, modern, and approachable digital experience that makes finding and managing a home simple and engaging.",
+    behanceUrl: "https://www.behance.net/gallery/253843919/Property-rental-website",
     ...pageImages("property-rental-website", 3),
   },
   {
@@ -59,6 +60,7 @@ export const works: Project[] = [
     projectType: "Competition Project",
     description:
       "A UX/UI project created for the Russian Design Cup, where I took 1st place.\n\nThe goal was to design a useful digital tool for medieval farmers, helping them manage agricultural processes and monitor key data such as crops, soil, pests, and expected yields.",
+    behanceUrl: "https://www.behance.net/gallery/253083899/Medieval-Farming-App",
     ...pageImages("medieval-farming-app", 2),
   },
   {
@@ -73,6 +75,7 @@ export const works: Project[] = [
     projectType: "Competition Project",
     description:
       "A UX/UI project created for the Russian Design Cup, where I took 1st place.\n\nThe challenge was to design a unified chat platform that brings personal, work, and other conversations together in one place, with a clear and intuitive interface for managing multiple types of communication.",
+    behanceUrl: "https://www.behance.net/gallery/252967671/Smart-Chat",
     ...pageImages("smart-chat", 2),
   },
 ];

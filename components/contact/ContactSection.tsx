@@ -18,7 +18,7 @@ export function ContactSection() {
               follows the pointer over the email.
               -mt-26: halves the visual gap title → email (52 → 26 Figma px;
               the gap is the Bebas line's internal top space). */}
-          <FollowCursor src="/icons/cursor-view.svg" blur className="-mt-26 w-fit">
+          <FollowCursor src="/icons/cursor-view.svg" className="-mt-26 w-fit">
             <a
               href={`mailto:${EMAIL}`}
               className="block font-display text-160 leading-normal whitespace-nowrap text-white uppercase"

@@ -17,7 +17,7 @@ type Props = {
  */
 export function WorkCard({ project, shape }: Props) {
   return (
-    <FollowCursor src="/icons/cursor-view.svg" blur>
+    <FollowCursor src="/icons/cursor-view.svg">
       <Link href={projectHref(project.slug)} className="group flex flex-col gap-8">
         <div
           className="relative w-full overflow-clip bg-placeholder"
