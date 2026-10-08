@@ -18,14 +18,20 @@ export const careerVisible: CareerItem[] = [
   },
 ];
 
-/**
- * Rows revealed by "show all" (from the CV).
- * TODO(content): role titles for these positions were not supplied —
- * add `role` when available; the Role cell stays empty until then.
- */
+/** Rows revealed by "show all" */
 export const careerHidden: CareerItem[] = [
-  { years: "2017-2018", company: "Selado", industry: "digital marketing agency" },
-  { years: "2014-2017", company: "Sagenta", industry: "digital marketing agency" },
-  { years: "2013-2014", company: "uCoz.com", industry: "digital SaaS" },
-  { years: "2011-2013", company: "Iligent", industry: "digital marketing agency" },
+  {
+    years: "2017-2018",
+    role: "SEO Specialist / Webmaster / Website Developer",
+    company: "Selado",
+    industry: "digital marketing agency",
+  },
+  { years: "2014-2017", role: "SEO Specialist / Webmaster", company: "Sagenta", industry: "digital marketing agency" },
+  {
+    years: "2013-2014",
+    role: "Digital Marketing Specialist / Webmaster",
+    company: "uCoz.com",
+    industry: "digital SaaS",
+  },
+  { years: "2011-2013", role: "Digital Marketing Specialist", company: "Iligent", industry: "digital marketing agency" },
 ];

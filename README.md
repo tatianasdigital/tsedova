@@ -120,7 +120,6 @@ the path in `content/`), no layout changes needed.
   118:2729 / 118:2625). Behance case-study URLs are not supplied: the button
   links to the profile ("View on Behance") until `behanceUrl` is set, then
   shows the Figma label.
-- Role titles for the 2011–2018 career rows — not supplied (cell left empty).
 - "show all" toggles to "show less" on a second click.
 - Mobile Figma shows "2018 - 2021" for Idaproject; the data (desktop, CV) says
   2018-2020 — left as in the data, change `content/career.ts` if needed.
