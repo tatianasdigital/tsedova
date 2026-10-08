@@ -61,9 +61,11 @@ export function HeroGallery({ items, interval = 4500, fade = 700, className = ""
               src={item.src}
               alt={item.alt}
               aria-hidden={i !== active}
+              decoding="async"
               className="pointer-events-none absolute object-cover"
               style={{
                 ...cropStyle,
+                objectPosition: item.position ?? "50% 50%",
                 opacity: i === active ? 1 : 0,
                 transition: reduced ? "none" : `opacity ${fade}ms ease-in-out`,
               }}

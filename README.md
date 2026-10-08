@@ -99,7 +99,7 @@ the path in `content/`), no layout changes needed.
 |---|---|---|
 | `public/images/works/<slug>/card.svg` | Work cards (grey) | left cards 1:1, right cards 814:1082 |
 | `public/images/works/<slug>/01–03.svg` | Project page images (grey) | 1028:830 |
-| `public/images/hero/gallery-1/2/3.png` | Hero gallery | 442×356 frame; currently all three are the one image used in Figma |
+| `public/images/hero/gallery-1/2/3.png` | Hero gallery | 442:356 (≈1.24:1), already framed; 884×712 px or larger. Filled edge to edge, no crop. Optional `position` / `crop` per item in `content/home.ts` |
 | `public/icons/hero-label-flash.svg` | "Open for work" icon (desktop + mobile) | change `heroLabel.iconSrc` / `mobileIconSrc` to swap |
 | `public/images/portrait.png` | Hero / About / Contact portrait (from Figma) | — |
 | `public/images/portrait-hero-mobile.webp` | Mobile hero portrait | 644 × 879 frame, cover |

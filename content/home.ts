@@ -25,29 +25,20 @@ export const heroPortraitMobile = {
 };
 
 /**
- * Exactly three images. Replace the files in /public/images/hero/
+ * Exactly three images, shown in the 442 × 356 Gallery frame (Figma 81:682).
+ * Supply them already framed at the frame's proportion (442:356 ≈ 1.24:1),
+ * ideally 884 × 712 px or larger — they then fill the frame edge to edge with
+ * no extra crop or enlargement. Replace the files in /public/images/hero/
  * (or change the paths here) — no component changes needed.
- * `crop` reproduces the Figma framing (frame 442×356, Figma 81:682);
- * remove it to fall back to a plain object-fit: cover inside the frame.
+ *
+ * Optional per image: `position` (object-position, default "50% 50%") picks
+ * which part stays visible if an image has a different proportion, and
+ * `crop` places an un-framed (oversized) export exactly as in Figma.
  */
 export const heroGallery: [HeroGalleryItem, HeroGalleryItem, HeroGalleryItem] = [
-  {
-    src: "/images/hero/gallery-1.png",
-    alt: "",
-    crop: { left: -510, top: -75, width: 1001.32, height: 648 },
-  },
-  {
-    src: "/images/hero/gallery-2.png",
-    alt: "",
-    // Figma 102:138: 568 × 377, centred in the 442 × 356 frame
-    crop: { left: -63, top: -11, width: 568, height: 377 },
-  },
-  {
-    src: "/images/hero/gallery-3.png",
-    alt: "",
-    // Figma 102:145: 456 × 356, centred horizontally, top 0
-    crop: { left: -7, top: 0, width: 456, height: 356 },
-  },
+  { src: "/images/hero/gallery-1.png", alt: "" },
+  { src: "/images/hero/gallery-2.png", alt: "" },
+  { src: "/images/hero/gallery-3.png", alt: "" },
 ];
 
 export const heroFeatures = {

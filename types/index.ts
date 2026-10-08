@@ -20,7 +20,9 @@ export type ImageCrop = {
 export type HeroGalleryItem = {
   src: string;
   alt: string;
-  /** Optional Figma crop of the image inside the 397×320 gallery frame. */
+  /** Optional object-position (default "50% 50%") — the part kept visible if the image is not 442:356 */
+  position?: string;
+  /** Optional Figma placement of an un-framed (oversized) image inside the 442×356 frame. */
   crop?: ImageCrop;
 };
 
