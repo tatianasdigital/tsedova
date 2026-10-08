@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Project, WorkCardShape } from "@/types";
 import { projectHref } from "@/lib/routes";
 import { FollowCursor } from "@/components/motion/FollowCursor";
+import { BLANK_SRC, MOBILE_MEDIA } from "@/components/layout/Responsive";
 
 type Props = {
   project: Project;
@@ -22,7 +23,16 @@ export function WorkCard({ project, shape }: Props) {
           className="relative w-full overflow-clip bg-placeholder"
           style={{ aspectRatio: shape === "square" ? "1 / 1" : "814 / 1082" }}
         >
-          <img src={project.cardImage} alt={project.title} className="absolute inset-0 size-full object-cover" />
+          {/* <picture>: phones (mobile cards use cardImageMobile) don't download this file */}
+          <picture>
+            <source media={MOBILE_MEDIA} srcSet={BLANK_SRC} />
+            <img
+              src={project.cardImage}
+              alt={project.title}
+              loading="lazy"
+              className="absolute inset-0 size-full object-cover"
+            />
+          </picture>
         </div>
         <div className="flex h-39 items-center justify-between py-10 text-16 text-white uppercase">
           <h3 className="font-medium">{project.title}</h3>

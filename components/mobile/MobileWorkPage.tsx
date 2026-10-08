@@ -8,6 +8,7 @@ import { MobileContact } from "@/components/mobile/MobileSections";
 import { MobileStickyCta } from "@/components/mobile/MobileStickyCta";
 import { BEHANCE_PROFILE } from "@/content/links";
 import { BACK_TO_WORKS } from "@/lib/routes";
+import { BLANK_SRC, DESKTOP_MEDIA } from "@/components/layout/Responsive";
 
 const delay = (ms: number) => ({ "--enter-delay": `${ms}ms` }) as CSSProperties;
 
@@ -24,11 +25,11 @@ function Detail({ label, value }: { label: string; value?: string }) {
 /**
  * Mobile project page — Figma 98:1851. Same project data as desktop.
  * Order: header → title (Back + Bebas 86) → info, details, Behance button →
- * square images → contact. Title/content overlap and the "from above"
+ * images (358 × 289) → contact. Title/content overlap and the "from above"
  * entrance are the same behaviours as on desktop.
  */
 export function MobileWorkPage({ project }: { project: Project }) {
-  const images = project.images ?? [];
+  const images = project.imagesMobile ?? project.images ?? [];
 
   return (
     <div className="bg-black">
@@ -72,7 +73,7 @@ export function MobileWorkPage({ project }: { project: Project }) {
               <div className="enter-from-above flex flex-col gap-8" style={delay(450)}>
                 <p className="text-14 text-grey-black uppercase">Info</p>
                 {project.description && (
-                  <p className="text-24 leading-[0.99] text-white uppercase">{project.description}</p>
+                  <p className="text-24 leading-[0.99] whitespace-pre-line text-white uppercase">{project.description}</p>
                 )}
               </div>
 
@@ -89,7 +90,7 @@ export function MobileWorkPage({ project }: { project: Project }) {
             </div>
 
             {/* Primary button (Figma 98:1802: white, py 20, 16px label + 20px icon)
-                + ImageGrid (98:1769: square images, gap 20). The button docks
+                + ImageGrid (118:2571: 358 × 289 images, gap 20). The button docks
                 24px above the bottom of the screen once reached and stops at
                 the end of the images — see MobileStickyCta. Gaps as in Figma:
                 details → button 32, button → images 56. */}
@@ -118,14 +119,18 @@ export function MobileWorkPage({ project }: { project: Project }) {
                   <div
                     key={src}
                     data-reveal="from-above"
-                    className="relative aspect-square w-full overflow-clip bg-placeholder"
+                    className="relative aspect-[358/289] w-full overflow-clip bg-placeholder"
                   >
-                    <img
-                      src={src}
-                      alt={`${project.title} — image ${i + 1}`}
-                      loading="lazy"
-                      className="absolute inset-0 size-full object-cover"
-                    />
+                    {/* <picture>: desktop gets its own set instead of these files */}
+                    <picture>
+                      <source media={DESKTOP_MEDIA} srcSet={BLANK_SRC} />
+                      <img
+                        src={src}
+                        alt={`${project.title} — image ${i + 1}`}
+                        loading="lazy"
+                        className="absolute inset-0 size-full object-cover"
+                      />
+                    </picture>
                   </div>
                 ))}
               </div>

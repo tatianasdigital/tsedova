@@ -97,13 +97,14 @@ the path in `content/`), no layout changes needed.
 
 | File(s) | Slot | Frame proportion |
 |---|---|---|
-| `public/images/works/<slug>/card.svg` | Work cards (grey) | left cards 1:1, right cards 814:1082 |
-| `public/images/works/<slug>/01–03.svg` | Project page images (grey) | 1028:830 |
+| `public/images/works/<slug>/card.jpg` | Desktop work cards (Figma 62:393, exported 2×) | left cards 1:1 (1628²), right cards 814:1082 (1628×2164) |
+| `public/images/works/<slug>/01–03.jpg` | Project page images, desktop (Figma ImageGrid, exported 2×) | 1028:830 (2056×1660) |
+| `public/images/works/<slug>/01–03-mobile.jpg` | Project page images, mobile (exported 3×) | 358:289 (1074×867) |
 | `public/images/hero/gallery-1/2/3.png` | Hero gallery | 442:356 (≈1.24:1), already framed; 884×712 px or larger. Filled edge to edge, no crop. Optional `position` / `crop` per item in `content/home.ts` |
 | `public/icons/hero-label-flash.svg` | "Open for work" icon (desktop + mobile) | change `heroLabel.iconSrc` / `mobileIconSrc` to swap |
 | `public/images/portrait.png` | Hero / About / Contact portrait (from Figma) | — |
 | `public/images/portrait-hero-mobile.webp` | Mobile hero portrait | 644 × 879 frame, cover |
-| `public/images/works/<slug>/card-mobile.jpg` | Mobile work cards (images from the mobile Figma) | 1:1 |
+| `public/images/works/<slug>/card-mobile.jpg` | Mobile work cards (Figma 96:1369, exported 3×) | 1:1 (1074²) |
 
 ## Fonts
 
@@ -114,14 +115,15 @@ the path in `content/`), no layout changes needed.
 
 ## Open items
 
-- Lake Saimaa description is taken from the Figma WorkPage. Descriptions and
-  details for the other 3 projects, and all Behance case-study URLs, are not
-  supplied. The Behance button links to the profile ("View on Behance") until
-  `behanceUrl` is set, then shows the Figma label.
+- Project texts and images are taken from the Figma WorkPages (desktop
+  118:997 / 115:157 / 116:742 / 115:268, mobile 118:2523 / 118:2415 /
+  118:2729 / 118:2625). Behance case-study URLs are not supplied: the button
+  links to the profile ("View on Behance") until `behanceUrl` is set, then
+  shows the Figma label.
 - Role titles for the 2011–2018 career rows — not supplied (cell left empty).
 - "show all" toggles to "show less" on a second click.
 - Mobile Figma shows "2018 - 2021" for Idaproject; the data (desktop, CV) says
   2018-2020 — left as in the data, change `content/career.ts` if needed.
-- Mobile project page: the Figma shows the work-card mockup as the first
-  image of Lake Saimaa; the page uses `images[]` from the data (placeholders)
-  like desktop.
+- Mobile Figma for Property rental website draws the first image 358×298
+  (the others 358×289); the site uses 358×289 for all, the extra 9px at the
+  bottom of that image are cropped.

@@ -73,5 +73,8 @@ export type Project = {
   tools?: string[];
   projectType?: string;
   behanceUrl?: string;
+  /** Project-page images, desktop (1028 × 830 frame) */
   images?: string[];
+  /** Project-page images, mobile (358 × 289 frame); falls back to `images` */
+  imagesMobile?: string[];
 };

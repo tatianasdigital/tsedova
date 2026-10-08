@@ -6,6 +6,7 @@ import { ContactSection } from "@/components/contact/ContactSection";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { BEHANCE_PROFILE } from "@/content/links";
 import { BACK_TO_WORKS } from "@/lib/routes";
+import { BLANK_SRC, MOBILE_MEDIA } from "@/components/layout/Responsive";
 import type { CSSProperties } from "react";
 
 type Detail = { label: string; value?: string };
@@ -86,11 +87,16 @@ export function WorkPage({ project }: { project: Project }) {
                   className={`relative w-full overflow-clip bg-placeholder ${i === 0 ? "enter-from-above" : ""}`}
                   style={{ ...(i === 0 ? delay(450) : {}), aspectRatio: "1028 / 830" }}
                 >
-                  <img
-                    src={src}
-                    alt={`${project.title} — image ${i + 1}`}
-                    className="absolute inset-0 size-full object-cover"
-                  />
+                  {/* <picture>: phones get the mobile set instead of these files */}
+                  <picture>
+                    <source media={MOBILE_MEDIA} srcSet={BLANK_SRC} />
+                    <img
+                      src={src}
+                      alt={`${project.title} — image ${i + 1}`}
+                      loading={i === 0 ? "eager" : "lazy"}
+                      className="absolute inset-0 size-full object-cover"
+                    />
+                  </picture>
                 </div>
               ))}
             </div>
@@ -101,7 +107,7 @@ export function WorkPage({ project }: { project: Project }) {
                 <div className="enter-from-above flex flex-col gap-12" style={delay(550)}>
                   <p className="text-16 text-grey-black uppercase">Info</p>
                   {project.description && (
-                    <p className="w-515 text-32 leading-[0.99] text-white uppercase">{project.description}</p>
+                    <p className="w-515 text-32 leading-[0.99] whitespace-pre-line text-white uppercase">{project.description}</p>
                   )}
                 </div>
 
