@@ -1,0 +1,36 @@
+/* ==================================================================
+   FONTS
+
+   Bebas Neue (headings, logo, years, email) — final font,
+   self-hosted via @fontsource/bebas-neue (imported in app/layout.tsx).
+
+   PP Neue Montreal Medium (body, navigation, interface text)
+   ⚠️  TEMPORARY FALLBACK IN USE: "Inter Tight" 500.
+   The licensed PP Neue Montreal files are not in the project yet.
+
+   To switch to the real font:
+     1. Put the licensed files in /public/fonts/, e.g.
+          PPNeueMontreal-Medium.woff2
+          PPNeueMontreal-Medium.woff
+     2. Uncomment the @font-face block below (adjust file names).
+     3. Done — "PP Neue Montreal" is already first in --font-body-stack.
+        Optionally remove the Inter Tight import in app/layout.tsx and
+        the @fontsource/inter-tight dependency.
+   ================================================================== */
+
+/*
+@font-face {
+  font-family: "PP Neue Montreal";
+  src:
+    url("/fonts/PPNeueMontreal-Medium.woff2") format("woff2"),
+    url("/fonts/PPNeueMontreal-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+*/
+
+:root {
+  --font-body-stack: "PP Neue Montreal", "Inter Tight", "Helvetica Neue", Arial,
+    sans-serif;
+}

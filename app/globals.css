@@ -1,0 +1,461 @@
+@import "tailwindcss";
+@import "../styles/fonts.css";
+
+/* ------------------------------------------------------------------
+   Fluid desktop scale
+   --u = one Figma pixel. The Figma desktop frame is 1728px wide.
+   Scales continuously from 1024px to 2560px viewport width.
+   Below 1024px the desktop layout stops shrinking (mobile layout is
+   not designed yet); above 2560px content stops growing and centres.
+   ------------------------------------------------------------------ */
+:root {
+  --u: calc(clamp(1024px, 100vw, 2560px) / 1728);
+
+  /* Section title geometry (Figma: 410px block, 300px Bebas text) */
+  --section-title-h: calc(var(--u) * 410);
+}
+
+/*
+  Every Tailwind spacing/size step equals one Figma pixel scaled by --u,
+  so `w-814` = 814 Figma px at the current viewport, `pt-40` = 40 Figma px.
+*/
+@theme inline {
+  --spacing: var(--u);
+
+  --font-display: "Bebas Neue", "Arial Narrow", sans-serif;
+  --font-body: var(--font-body-stack);
+
+  /* Body sizes keep a legible minimum on small desktops */
+  --text-12: max(11px, calc(var(--u) * 12));
+  --text-14: max(12px, calc(var(--u) * 14));
+  --text-16: max(13px, calc(var(--u) * 16));
+  --text-20: max(15px, calc(var(--u) * 20));
+  --text-32: calc(var(--u) * 32);
+  --text-36: calc(var(--u) * 36);
+  --text-24: calc(var(--u) * 24);
+  --text-40: calc(var(--u) * 40);
+  --text-64: calc(var(--u) * 64);
+  --text-86: calc(var(--u) * 86);
+  --text-160: calc(var(--u) * 160);
+  --text-200: calc(var(--u) * 200);
+  --text-300: calc(var(--u) * 300);
+  --text-340: calc(var(--u) * 340);
+}
+
+/* Colours — names follow the Figma variables */
+@theme {
+  --color-bg-light: #e5e5ee;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-colorgrey: #989fb9;
+  --color-grey: #b6b7c0;
+  --color-grey-black: #4a4a51;
+  --color-accent: #3a49ee;
+  --color-avatar-bg: #dfdfe8;
+  --color-divider: rgba(255, 255, 255, 0.2);
+  --color-placeholder: #d9d9d9;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-black);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 500;
+  line-height: normal;
+  color: var(--color-black);
+  background: var(--color-black);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Desktop layout keeps its 1024px minimum; below 768px the mobile layout takes over */
+@media (min-width: 768px) {
+  body {
+    min-width: 1024px;
+  }
+}
+
+img {
+  display: block;
+  max-width: none;
+}
+
+/* Centred content column: full width up to 2560px, then capped */
+.site-container {
+  width: 100%;
+  max-width: calc(var(--u) * 1728);
+  margin-inline: auto;
+  padding-inline: calc(var(--u) * 40);
+}
+
+/* Hero title marquee — seamless right-to-left loop (one group = −50%) */
+@keyframes hero-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.hero-marquee-track {
+  display: flex;
+  width: max-content;
+  /* starts after the title has faded in (see --marquee-delay) */
+  animation: hero-marquee var(--marquee-duration, 40s) linear var(--marquee-delay, 0s) infinite;
+  will-change: transform;
+}
+
+.hero-marquee-group {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.hero-marquee-item {
+  flex-shrink: 0;
+  padding-right: 0.25em;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-marquee-track {
+    animation: none;
+    width: 100%;
+    justify-content: center;
+  }
+  .hero-marquee-dup,
+  .hero-marquee-item + .hero-marquee-item {
+    display: none;
+  }
+  .hero-marquee-item {
+    padding-right: 0;
+  }
+}
+
+/* ==================================================================
+   MOTION
+   One easing, one distance, one duration for every entrance.
+   Everything here is switched off for prefers-reduced-motion.
+   ================================================================== */
+:root {
+  /* movement: long, soft deceleration (ease-out-quart) */
+  --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+  /* opacity: gentler curve so the fade doesn't "pop" in the first frames */
+  --ease-fade: cubic-bezier(0.33, 0.7, 0.5, 1);
+  --enter-duration: 1100ms; /* scroll entrances */
+  --fade-duration: 1000ms;
+  --enter-distance: 56px;
+  --hero-duration: 950ms; /* first screen */
+  --hover-duration: 250ms;
+}
+
+/* ---------- First Screen: runs once on page load (pure CSS) ---------- */
+@keyframes enter-from-above {
+  from {
+    opacity: 0;
+    transform: translate3d(0, calc(var(--enter-distance) * -1), 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes enter-from-below {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--enter-distance), 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* `transform` composes with Tailwind's translate/scale properties,
+     so positioned elements (−50% centring, mirrored portrait) keep their
+     layout; the animation only adds the small slide. */
+  .enter-from-above {
+    animation: enter-from-above var(--hero-duration) var(--ease-out) var(--enter-delay, 0ms) both;
+  }
+  .enter-from-below {
+    animation: enter-from-below var(--hero-duration) var(--ease-out) var(--enter-delay, 0ms) both;
+  }
+}
+
+/* ---------- Scroll-triggered entrances ----------
+   Hidden states apply only when html.js-reveal is set (inline script in
+   app/layout.tsx, skipped for reduced motion) → without JS or with reduced
+   motion everything is simply visible. RevealObserver adds .is-revealed to
+   [data-reveal-group] (or a lone [data-reveal]) once, when it enters view. */
+@property --ring-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 360deg;
+}
+
+html.js-reveal [data-reveal] {
+  opacity: 0;
+  will-change: opacity, transform;
+  transition:
+    opacity var(--fade-duration) var(--ease-fade) var(--reveal-delay, 0ms),
+    transform var(--enter-duration) var(--ease-out) var(--reveal-delay, 0ms);
+}
+
+html.js-reveal [data-reveal="from-above"] {
+  transform: translate3d(0, calc(var(--enter-distance) * -1), 0);
+}
+
+html.js-reveal [data-reveal="from-below"] {
+  transform: translate3d(0, var(--enter-distance), 0);
+}
+
+/* Rings: fade + clockwise "drawing" via a conic mask on the ring image */
+html.js-reveal [data-reveal="ring"] {
+  --ring-angle: 0deg;
+  -webkit-mask-image: conic-gradient(from 0deg, #000 var(--ring-angle), transparent var(--ring-angle));
+  mask-image: conic-gradient(from 0deg, #000 var(--ring-angle), transparent var(--ring-angle));
+  transition:
+    opacity 1000ms var(--ease-fade) var(--reveal-delay, 0ms),
+    --ring-angle 1800ms cubic-bezier(0.45, 0, 0.25, 1) var(--reveal-delay, 0ms);
+}
+
+html.js-reveal [data-reveal].is-revealed,
+html.js-reveal .is-revealed [data-reveal] {
+  opacity: 1;
+  transform: none;
+  --ring-angle: 360deg;
+}
+
+/* ---------- Hovers ---------- */
+/* Hover underline (header + contact links).
+   .u-trigger = the hover target (the link), .u-line = what gets underlined.
+   A single, exactly 1px line in currentColor (always the text colour,
+   including the adaptive black/white header words), painted as a background
+   under the text — no pseudo-element, no scaling, so it stays one crisp line.
+   Draws left → right on hover, retracts to the right on leave.
+   Multi-word adaptive labels have one .u-line per word; --u-delay chains
+   them into one continuous stroke. Inline vertical padding doesn't affect
+   layout, it only places the line a few px under the baseline. */
+.u-trigger {
+  text-decoration: none;
+}
+.u-line {
+  padding-bottom: 3px;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  background-position: 100% 100%;
+  /* color: for the adaptive header words (black ↔ white) */
+  transition:
+    color 300ms ease-out,
+    background-size 380ms var(--ease-out) var(--u-delay-out, 0ms);
+}
+.u-trigger:hover .u-line,
+.u-trigger:focus-visible .u-line,
+.u-trigger.u-line:hover,
+.u-trigger.u-line:focus-visible {
+  background-size: 100% 1px;
+  background-position: 0% 100%;
+  transition-delay: 0ms, var(--u-delay, 0ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .u-line {
+    transition: none;
+  }
+}
+
+/* Scroll Down: colour + icon "slide-through" (down out, back in from above) */
+.scroll-down {
+  transition: color var(--hover-duration) ease-out;
+}
+.scroll-down:hover,
+.scroll-down:focus-visible {
+  color: #7d84a1;
+}
+
+@keyframes slide-through {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  45% {
+    transform: translate3d(0, 110%, 0);
+    opacity: 0;
+  }
+  46% {
+    transform: translate3d(0, -110%, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-down:hover .scroll-down-icon,
+  .scroll-down:focus-visible .scroll-down-icon {
+    animation: slide-through 600ms var(--ease-out);
+  }
+}
+
+/* Icons drawn in currentColor from an SVG file (used as a mask) */
+.icon-mask {
+  display: block;
+  background-color: currentColor;
+  -webkit-mask: var(--icon) center / 100% 100% no-repeat;
+  mask: var(--icon) center / 100% 100% no-repeat;
+}
+
+/* Custom follow-cursor (WorkCard, Email).
+   .follow-cursor = positioning layer (JS sets translate3d to the pointer)
+   .follow-cursor-inner = visual layer (scale/opacity morph around its centre) */
+.follow-cursor {
+  --cursor-size: max(64px, calc(var(--u) * 80));
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  margin: calc(var(--cursor-size) / -2) 0 0 calc(var(--cursor-size) / -2);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.follow-cursor-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  /* hidden state = a small dot under the pointer (where the arrow tip is) */
+  opacity: 0;
+  transform: scale(0.15);
+  transition:
+    opacity 260ms cubic-bezier(0.33, 0.7, 0.5, 1),
+    transform 380ms cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform, opacity;
+}
+
+.follow-cursor.is-active .follow-cursor-inner {
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    opacity 200ms cubic-bezier(0.33, 0.7, 0.5, 1),
+    transform 420ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.follow-cursor--blur {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+/* ==================================================================
+   MOBILE (< 768px) — Figma 390 × 844 (frames 98:1633 / 98:1634 / 98:1851)
+   Inside .m-scope the Tailwind unit --u is one pixel of the 390px mobile
+   frame, so classes like w-358 / p-16 / text-86 are mobile Figma values.
+   Fluid: 320px → 0.82, 390px → 1, capped at 480px (≈1.23).
+   ================================================================== */
+.m-scope {
+  --u: calc(clamp(320px, 100vw, 480px) / 390);
+}
+
+/* Content column of the mobile frame (390 wide incl. 16px gutters) */
+.m-container {
+  width: 100%;
+  max-width: calc(var(--u) * 390);
+  margin-inline: auto;
+  padding-inline: calc(var(--u) * 16);
+}
+
+/* Reduced motion: the mobile hero title sits left-aligned like the Figma */
+@media (prefers-reduced-motion: reduce) {
+  .hero-marquee--start .hero-marquee-track {
+    justify-content: flex-start;
+  }
+}
+
+/* Mobile menu overlay */
+.m-menu {
+  /* closing: the text fades first (below), then the black background */
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 380ms var(--ease-fade) 260ms,
+    visibility 0s linear 640ms;
+}
+.m-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 360ms var(--ease-out),
+    visibility 0s;
+}
+/* Menu text — opening: links drop in one after another; closing: everything
+   fades out together in place, before the background */
+.m-menu [data-menu-item],
+.m-menu .m-menu-fade {
+  opacity: 0;
+  transition:
+    opacity 260ms var(--ease-fade),
+    transform 0s linear 640ms;
+}
+.m-menu [data-menu-item] {
+  transform: translate3d(0, -24px, 0);
+}
+.m-menu.is-open .m-menu-fade {
+  opacity: 1;
+  transition: none;
+}
+.m-menu.is-open [data-menu-item] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 420ms var(--ease-fade),
+    transform 520ms var(--ease-out);
+  transition-delay: var(--menu-delay, 0ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .m-menu,
+  .m-menu.is-open,
+  .m-menu [data-menu-item],
+  .m-menu .m-menu-fade,
+  .m-menu.is-open [data-menu-item] {
+    transition: none;
+  }
+}
+
+/* Mobile sticky CTA: docks 24px above the bottom of the screen (browser-native
+   sticky, so it is perfectly smooth) and is released at the end of its block */
+.m-cta-sticky {
+  position: sticky;
+  z-index: 30;
+  top: calc(100vh - var(--cta-offset) - var(--cta-h));
+  top: calc(100dvh - var(--cta-offset) - var(--cta-h));
+}
+/* Mobile sticky CTA: slides up into its docked place when it was not reached
+   from below (see MobileStickyCta) */
+@keyframes m-cta-slide-in {
+  from {
+    transform: translate3d(0, calc(100% + 24px), 0);
+  }
+  to {
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .m-cta-slide-in {
+    animation: m-cta-slide-in 420ms var(--ease-out) both;
+  }
+}
