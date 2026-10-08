@@ -83,10 +83,12 @@ export function FirstScreen() {
           }}
         />
 
-        {/* Portrait — Figma 81:681: 1603×1659 at (159, −400) in the 1920 frame,
-            i.e. centre − 801; mirrored. File = the Figma crop of the 1536×2048
-            source (rows 0–1590), so it is shown at ~1:1 at 1920px.
-            Its bottom never rises above the Figma bleed (1259 − 1080 = 179).
+        {/* Portrait — Figma 96:1187 "tanya3 1": 1610×2146 at (156, −404) in the
+            1920 frame (centred, +0.5), i.e. centre − 804; mirrored.
+            File = the Figma source (1536×2048), rows 0–1416 only: the lower
+            662px of the Figma box always stays below the screen, because the
+            image bottom never rises above the Figma bleed (2146 − 404 − 1080 = 662).
+            Box height = 1416 × 2146/2048 = 1483.78.
             <picture>: phones (< 768px, mobile layout) get a 1px placeholder
             instead of downloading this desktop-only image. */}
         <picture>
@@ -99,10 +101,10 @@ export function FirstScreen() {
             className="enter-from-below pointer-events-none absolute -scale-x-100 object-fill select-none"
             style={{
               ...delay(0),
-              width: "calc(var(--p) * 1603)",
-              height: "calc(var(--p) * 1659)",
-              left: "calc(50% - var(--p) * 801)",
-              top: "max(calc(var(--p) * -400), calc(100% - var(--p) * 1480))",
+              width: "calc(var(--p) * 1610)",
+              height: "calc(var(--p) * 1483.78)",
+              left: "calc(50% - var(--p) * 804)",
+              top: "max(calc(var(--p) * -404), calc(100% - var(--p) * 1484))",
             }}
           />
         </picture>

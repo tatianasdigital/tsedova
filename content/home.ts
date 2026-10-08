@@ -5,7 +5,7 @@ import type { HeroGalleryItem, HeroLabelData, InfoCard } from "@/types";
 export const heroTitle = "UX/UI DESIGNER";
 
 export const heroPortrait = {
-  // Figma crop of the 1536×2048 source (hero only; About/Contact keep portrait.png)
+  // Figma 96:1187 source (1536×2048), top 1416 rows (hero only; About/Contact keep portrait.png)
   src: "/images/portrait-hero.png",
   alt: "Tatiana Sedova",
 };

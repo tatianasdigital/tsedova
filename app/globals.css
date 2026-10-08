@@ -186,11 +186,16 @@ img {
   /* `transform` composes with Tailwind's translate/scale properties,
      so positioned elements (−50% centring, mirrored portrait) keep their
      layout; the animation only adds the small slide. */
+  /* fill-mode `backwards` (not `both`): hidden during the delay, and once the
+     entrance has finished the animation lets go of the element completely.
+     With `both` the finished animation kept every block on its own GPU layer,
+     rasterised at the wrong scale → images (Gallery, portrait) looked blurry,
+     especially with Windows display scaling 125% / 150%. End state is identical. */
   .enter-from-above {
-    animation: enter-from-above var(--hero-duration) var(--ease-out) var(--enter-delay, 0ms) both;
+    animation: enter-from-above var(--hero-duration) var(--ease-out) var(--enter-delay, 0ms) backwards;
   }
   .enter-from-below {
-    animation: enter-from-below var(--hero-duration) var(--ease-out) var(--enter-delay, 0ms) both;
+    animation: enter-from-below var(--hero-duration) var(--ease-out) var(--enter-delay, 0ms) backwards;
   }
 }
 
@@ -236,6 +241,8 @@ html.js-reveal .is-revealed [data-reveal] {
   opacity: 1;
   transform: none;
   --ring-angle: 360deg;
+  /* release the GPU layer once revealed (a permanent layer renders images soft) */
+  will-change: auto;
 }
 
 /* ---------- Hovers ---------- */
