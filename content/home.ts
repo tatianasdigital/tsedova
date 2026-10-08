@@ -88,6 +88,6 @@ export const contactContent = {
   title: "Let’s work together",
   avatar: { src: "/images/portrait.png", alt: "Tatiana Sedova" },
   credits: "Designed & built by Tatiana Sedova",
-  tools: "Figma + Open AI + Claude",
+  tools: "Figma + Chat GPT + Claude",
   year: "2026",
 };

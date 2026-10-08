@@ -94,7 +94,8 @@ export function MobileWorkPage({ project }: { project: Project }) {
               {images.map((src, i) => (
                 <div
                   key={src}
-                  data-reveal="from-above"
+                  // only the first image comes in from above; the rest have no animation
+                  {...(i === 0 ? { "data-reveal": "from-above" } : {})}
                   className="relative aspect-[358/289] w-full overflow-clip bg-placeholder"
                 >
                   {/* <picture>: desktop gets its own set instead of these files */}

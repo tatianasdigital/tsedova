@@ -32,7 +32,7 @@ function DetailItem({ label, value }: Detail) {
  * blocks come in from above one after another on load —
  *   0ms header · 150 back · 280 title · 450 first image · 550 info text ·
  *   670 details · 790 button —
- * further images come in from above when they scroll into view.
+ * the other images have no animation.
  */
 const delay = (ms: number) => ({ "--enter-delay": `${ms}ms` }) as CSSProperties;
 export function WorkPage({ project }: { project: Project }) {
@@ -79,11 +79,10 @@ export function WorkPage({ project }: { project: Project }) {
             {/* ImageGrid — three stacked 1028×830 images */}
             <div className="flex min-w-0 flex-1 flex-col gap-20">
               {images.map((src, i) => (
-                // first image is on screen at load → plays with the page entrance;
-                // the rest come in from above when they scroll into view
+                // only the first image has the entrance (from above, with the page);
+                // the following images are shown as they are, without animation
                 <div
                   key={src}
-                  {...(i > 0 ? { "data-reveal": "from-above" } : {})}
                   className={`relative w-full overflow-clip bg-placeholder ${i === 0 ? "enter-from-above" : ""}`}
                   style={{ ...(i === 0 ? delay(450) : {}), aspectRatio: "1028 / 830" }}
                 >
