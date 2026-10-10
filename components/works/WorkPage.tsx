@@ -106,7 +106,7 @@ export function WorkPage({ project }: { project: Project }) {
                 <div className="enter-from-above flex flex-col gap-12" style={delay(550)}>
                   <p className="text-16 text-grey-black uppercase">Info</p>
                   {project.description && (
-                    <p className="w-515 text-32 leading-[0.99] whitespace-pre-line text-white uppercase">{project.description}</p>
+                    <p className="w-515 text-28 leading-[0.99] whitespace-pre-line text-white uppercase">{project.description}</p>
                   )}
                 </div>
 
